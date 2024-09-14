@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-#[Route('/admin/animal')]
+#[Route('/admin')]
 #[IsGranted('ROLE_ADMIN')]
 final class AdminAnimalController extends AbstractController
 {
-    #[Route(name: 'app_admin_animal_index', methods: ['GET'])]
+    #[Route('/', name: 'app_admin_animal_index', methods: ['GET'])]
     public function index(AnimalRepository $animalRepository): Response
     {
         return $this->render('admin_animal/index.html.twig', [

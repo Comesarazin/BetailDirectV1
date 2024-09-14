@@ -91,7 +91,7 @@ final class AnimalController extends AbstractController
             ]);
         } */
 
-    #[Route('/{id}', name: 'app_animal_show', methods: ['GET'])]
+    #[Route('animal/{id}', name: 'app_animal_show', methods: ['GET'])]
     public function show(Animal $animal): Response
     {
         return $this->render('animal/show.html.twig', [

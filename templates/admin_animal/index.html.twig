@@ -3,47 +3,54 @@
 {% block title %}Animal index{% endblock %}
 
 {% block body %}
-    <h1>Animal index</h1>
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4 text-center">Gestion des Animaux</h1>
+     <a href="{{ path('app_admin_animal_new') }}">
+        <button class="my-4 bg-blue-500 text-white px-4 py-2 rounded">Ajouter un animal</button>
+    </a>
 
-    <table class="table">
+    <table class="min-w-full bg-white border border-gray-200">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Type</th>
-                <th>Race</th>
-                <th>Description</th>
-                <th>Photos</th>
-                <th>Status</th>
-                <th>Price</th>
-                <th>actions</th>
+            <tr class="bg-gray-100 border-b">
+                <th class="py-2 px-4 border-r">Photos</th>
+                <th class="py-2 px-4 border-r">Nom</th>
+                <th class="py-2 px-4 border-r">Âge</th>
+                <th class="py-2 px-4 border-r">Type</th>
+                <th class="py-2 px-4 border-r">Race</th>
+                <th class="py-2 px-4 border-r">Description</th>
+                <th class="py-2 px-4 border-r">Statut</th>
+                <th class="py-2 px-4 border-r">Prix</th>
+                <th class="py-2 px-4">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for animal in animals %}
-            <tr>
-                <td>{{ animal.id }}</td>
-                <td>{{ animal.name }}</td>
-                <td>{{ animal.age }}</td>
-                <td>{{ animal.type }}</td>
-                <td>{{ animal.race }}</td>
-                <td>{{ animal.description }}</td>
-                <td>{{ animal.photos ? animal.photos|json_encode : '' }}</td>
-                <td>{{ animal.status }}</td>
-                <td>{{ animal.price }}</td>
-                <td>
-                    <a href="{{ path('app_admin_animal_show', {'id': animal.id}) }}">show</a>
-                    <a href="{{ path('app_admin_animal_edit', {'id': animal.id}) }}">edit</a>
+            <tr class="border-b">
+                <td class="py-2 px-4 border-r">
+                    {% if animal.photos is iterable and animal.photos|length > 0 %}
+                        <img src="{{ asset('uploads/images/' ~ animal.photos[0]) }}" alt="{{ animal.name }}" class="w-16 h-16 object-cover">
+                    {% else %}
+                        <img src="{{ asset('images/Pas-dimage-disponible.jpg') }}" alt="Image par défaut" class="w-16 h-16 object-cover">
+                    {% endif %}
+                </td>
+                <td class="py-2 px-4 border-r">{{ animal.name }}</td>
+                <td class="py-2 px-4 border-r">{{ animal.age }}</td>
+                <td class="py-2 px-4 border-r">{{ animal.type }}</td>
+                <td class="py-2 px-4 border-r">{{ animal.race }}</td>
+                <td class="py-2 px-4 border-r">{{ animal.description }}</td>
+                <td class="py-2 px-4 border-r">{{ animal.status }}</td>
+                <td class="py-2 px-4 border-r">{{ animal.price }}</td>
+                <td class="py-2 px-4">
+                    <a href="{{ path('app_admin_animal_show', {'id': animal.id}) }}" class="text-blue-500 hover:underline">Voir</a>
+                    <a href="{{ path('app_admin_animal_edit', {'id': animal.id}) }}" class="text-green-500 hover:underline ml-2">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="10">no records found</td>
+                <td colspan="10" class="py-2 px-4 text-center">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_admin_animal_new') }}">Create new</a>
+</div>
 {% endblock %}

@@ -16,6 +16,37 @@ class AnimalRepository extends ServiceEntityRepository
         parent::__construct($registry, Animal::class);
     }
 
+    public function findBySearchQuery(string $query)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.name LIKE :query OR a.type LIKE :query OR a.race LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByFilters(?string $query, ?string $type, ?string $race)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        if ($query) {
+            $qb->andWhere('a.name LIKE :query OR a.description LIKE :query')
+               ->setParameter('query', '%' . $query . '%');
+        }
+
+        if ($type) {
+            $qb->andWhere('a.type = :type')
+               ->setParameter('type', $type);
+        }
+
+        if ($race) {
+            $qb->andWhere('a.race = :race')
+               ->setParameter('race', $race);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     //    /**
     //     * @return Animal[] Returns an array of Animal objects
     //     */

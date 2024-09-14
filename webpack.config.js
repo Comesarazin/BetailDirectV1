@@ -1,35 +1,23 @@
 const Encore = require('@symfony/webpack-encore');
-
-// Manually configure the runtime environment if not already configured yet by the "encore" command.
-// It's useful when you use tools that rely on webpack.config.js file.
-if (!Encore.isRuntimeEnvironmentConfigured()) {
-	Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
-}
+const path = require('path');
+const webpack = require('webpack');
 
 Encore
-    
-	.setOutputPath('public/build/')
-	.setPublicPath('/build')
-	.addEntry('app', './assets/app.js')
-	.splitEntryChunks()
-	.enableSingleRuntimeChunk()
-	.cleanupOutputBeforeBuild()
-	.enableBuildNotifications()
-	.enableSourceMaps(!Encore.isProduction())
-
-	.enableVersioning(Encore.isProduction())
-	.configureBabelPresetEnv((config) => {
-		config.useBuiltIns = 'usage';
-		config.corejs = '3.23';
-	})
-	.enableSassLoader()
-	.enableTypeScriptLoader()
-	.enableReactPreset()
-	.enableVueLoader()
-	.enableIntegrityHashes(Encore.isProduction())
-	.autoProvidejQuery()
-
+    .setOutputPath('public/build/')
+    .setPublicPath('/build')
+    .addEntry('app', './assets/app.js')
+    .enableVueLoader(() => {}, { runtimeCompilerBuild: false })
+    .enableSingleRuntimeChunk()
     .enablePostCssLoader()
+    .addAliases({
+        '@symfony/stimulus-bridge/controllers.json': path.resolve(__dirname, 'assets/controllers/controllers.json'),
+        'vue': 'vue/dist/vue.esm-bundler.js'
+    })
+    .addPlugin(new webpack.DefinePlugin({
+        __VUE_OPTIONS_API__: JSON.stringify(true),
+        __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
+        __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false)
+    }))
 ;
 
 module.exports = Encore.getWebpackConfig();

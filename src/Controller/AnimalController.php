@@ -54,7 +54,7 @@ final class AnimalController extends AbstractController
         return new JsonResponse($data);
     }
 
-    #[Route('/new', name: 'app_animal_new', methods: ['GET', 'POST'])]
+    /* #[Route('/new', name: 'app_animal_new', methods: ['GET', 'POST'])]
         public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
         {
             $animal = new Animal();
@@ -89,7 +89,7 @@ final class AnimalController extends AbstractController
                 'animal' => $animal,
                 'form' => $form->createView(),
             ]);
-        }
+        } */
 
     #[Route('/{id}', name: 'app_animal_show', methods: ['GET'])]
     public function show(Animal $animal): Response
@@ -99,7 +99,7 @@ final class AnimalController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_animal_edit', methods: ['GET', 'POST'])]
+    /* #[Route('/{id}/edit', name: 'app_animal_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Animal $animal, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(AnimalType::class, $animal);
@@ -115,9 +115,9 @@ final class AnimalController extends AbstractController
             'animal' => $animal,
             'form' => $form,
         ]);
-    }
+    } */
 
-    #[Route('/{id}', name: 'app_animal_delete', methods: ['POST'])]
+    /* #[Route('/{id}', name: 'app_animal_delete', methods: ['POST'])]
     public function delete(Request $request, Animal $animal, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$animal->getId(), $request->getPayload()->getString('_token'))) {
@@ -126,7 +126,7 @@ final class AnimalController extends AbstractController
         }
 
         return $this->redirectToRoute('app_animal_index', [], Response::HTTP_SEE_OTHER);
-    }
+    } */
 
     #[Route('/search', name: 'app_animal_search', methods: ['GET'])]
     public function search(Request $request, AnimalRepository $animalRepository): Response

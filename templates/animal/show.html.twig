@@ -1,54 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Animal{% endblock %}
+{% block title %}animal details{% endblock %}
 
 {% block body %}
-    <h1>Animal</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ animal.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ animal.name }}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td>{{ animal.age }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ animal.type }}</td>
-            </tr>
-            <tr>
-                <th>Race</th>
-                <td>{{ animal.race }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ animal.description }}</td>
-            </tr>
-            <tr>
-                <th>Photos</th>
-                <td>{{ animal.photos ? animal.photos|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ animal.status }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ animal.price }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4 text-center">{{ animal.name }}</h1>
+        
+        <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+            <div class="flex items-center">
+                <div class="animal-photo flex-shrink-0">
+                    {% if animal.photos|length > 0 %}
+                        <img src="{{ asset('uploads/images/' ~ animal.photos[0]) }}" alt="{{ animal.name }}" class="w-96 h-96 object-cover">
+                    {% else %}
+                        <img src="/images/Pas-dimage-disponible.jpg" alt="Pas d'image" class="w-96 h-96 object-cover rounded-full">
+                    {% endif %}
+                </div>
+                <div class="animal-info ml-4">
+                    <h3 class="text-lg font-bold mb-2">{{ animal.name }}</h3>
+                    <p class="text-gray-600">Âge: {{ animal.age }} ans</p>
+                    <p class="text-gray-600">Type: {{ animal.type }}</p>
+                    <p class="text-gray-600">Race: {{ animal.race }}</p>
+                    <p class="text-gray-600">Description: {{ animal.description }}</p>
+                    <button id="contactButton" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Contacter pour acheter</button>
+                    <p id="phoneNumber" class="mt-2 text-gray-600 hidden">Numéro de téléphone: 0123456789</p>
+                </div>
+            </div>
+        </div>
+            <a href="{{ path('app_animal_index') }}">
+            <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Retour a la liste</button>
+            </a>
+    </div>
 
-    <a href="{{ path('app_animal_index') }}">back to list</a>
+    <script>
+        document.getElementById('contactButton').addEventListener('click', function() {
+            document.getElementById('phoneNumber').classList.remove('hidden');
+        });
+    </script>
 
-    <a href="{{ path('app_animal_edit', {'id': animal.id}) }}">edit</a>
-
-    {{ include('animal/_delete_form.html.twig') }}
 {% endblock %}

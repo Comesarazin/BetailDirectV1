@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BétailDirect{% endblock %}
+
+{% block body %}
+    <h1 class="text-[#495C4A] text-4xl font-bold mb-4 text-center mt-8">BétailDirect</h1>
+
+    <div id="app">
+        <search-bar @search="handleSearch"></search-bar>
+        <filter-bar @filter="handleFilter"></filter-bar>
+        <animal-list :animals="animals"></animal-list>
+    </div>
+
+    {{ encore_entry_script_tags('app') }}
+
+    {# <form method="get" action="{{ path('app_animal_search') }}" class="mb-4">
+        <input type="text" name="q" placeholder="Rechercher un animal..." class="w-full p-2 border border-gray-300 rounded-lg">
+        <button type="submit" class="mt-2 p-2 bg-blue-500 text-white rounded-lg">Rechercher</button>
+    </form> #}
+
+    {# <form method="get" action="{{ path('app_animal_index') }}" class="mb-4">
+        <select name="type" class="w-full p-2 border border-gray-300 rounded-lg mb-2">
+            <option value="">Tous les types</option>
+            <option value="chien">Chien</option>
+            <option value="cheval">Cheval</option>
+            <option value="brebis">Brebis</option>
+            <option value="cochon">Cochon</option>
+        </select>
+        <select name="race" class="w-full p-2 border border-gray-300 rounded-lg mb-2">
+            <option value="">Toutes les races</option>
+            <option value="labrador">Labrador</option>
+            <option value="frison">Frison</option>
+            <option value="pottok">Pottok</option>
+            <option value="irish cob">Irish cob</option>
+            <option value="mérinos">Mérinos</option>
+            <option value="solognotes">Solognotes</option>
+        </select>
+        <button type="submit" class="mt-2 p-2 bg-blue-500 text-white rounded-lg">Filtrer</button>
+    </form> #}
+
+    {# <div class="container mx-auto">
+        <div class="grid grid-cols-1 gap-4">
+            {% for animal in animals %}
+            <a href="{{ path('app_animal_show', {'id': animal.id}) }}" class="block mb-4">
+                <div class="animal bg-white rounded-lg shadow-md p-4 flex items-center">
+                    <div class="animal-photo flex-shrink-0">
+                    {% if animal.photos is not empty %}
+                        {% for photo in animal.photos %}
+                            <img src="{{ asset('uploads/images/' ~ photo) }}" alt="{{ animal.name }}" class="w-36 h-36 object-cover rounded-full">
+                        {% endfor %}
+                    {% else %}
+                        <img src="{{ asset('images/Pas-dimage-disponible.jpg') }}" alt="Par Image" class="w-36 h-36 object-cover rounded-full">
+                    {% endif %}
+                    </div>
+                    <div class="animal-info ml-4">
+                        <h3 class="text-lg font-bold mb-2">{{ animal.name }}</h3>
+                        <p class="text-gray-600">{{ animal.age }} ans</p>
+                        <p class="text-gray-600">{{ animal.type }}</p>
+                        <p class="text-gray-600">{{ animal.race }}</p>
+                        <p class="text-gray-600">{{ animal.description }}</p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <a href="{{ path('app_animal_new') }}" class="text-blue-500">Create new</a> #}
+{% endblock %}

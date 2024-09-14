@@ -1,0 +1,13 @@
+<footer class="text-[#495C4A] py-6" style="background-color: #DBDCD7;">
+	<div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+		<p class="mb-4 md:mb-0">&copy; {{ "now"|date("Y") }} BétailDirect. Tous droits réservés.</p>
+		<nav>
+			<ul class="flex space-x-4">
+				<li><a href="{{ path('app_animal_index') }}" class="hover:underline">Accueil</a></li>
+				<li><a href="{{ path('app_animal_index') }}" class="hover:underline">À propos</a></li>
+				<li><a href="{{ path('app_animal_index') }}" class="hover:underline">Contact</a></li>
+				{# <li><a href="{{ path('app_login') }}" class="hover:underline">Admin</a></li> #}
+			</ul>
+		</nav>
+	</div>
+</footer>

@@ -54,7 +54,14 @@ class Animal1Type extends AbstractType
                     ])
                 ],
             ])
-            ->add('status')
+            ->add('status', ChoiceType::class, [
+                'choices' => [
+                    'En vente' => 'en vente',
+                    'Vendu' => 'vendu',
+                    'Réservé' => 'réservé',
+                ],
+                'label' => 'Status',
+            ])
             ->add('price')
         ;
     }

@@ -12,3 +12,11 @@ login:
 logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
+
+about:
+    path: /about
+    controller: App\Controller\DefaultController::about
+
+contact:
+    path: /contact
+    controller: App\Controller\DefaultController::contact

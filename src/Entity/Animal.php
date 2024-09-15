@@ -29,8 +29,8 @@ class Animal
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?array $photos = null;
+    #[ORM\Column(type: 'json')]
+    private $photos = [];
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
@@ -117,15 +117,19 @@ class Animal
 
     public function addPhoto(string $photo): self
     {
-        $this->photos[] = $photo;
+        // Ajouter le nom de fichier à l'attribut photos s'il n'existe pas déjà
+        if (!in_array($photo, $this->photos, true)) {
+            $this->photos[] = $photo;
+        }
 
         return $this;
     }
 
     public function removePhoto(string $photo): self
     {
-        if (($key = array_search($photo, $this->photos)) !== false) {
+        if (($key = array_search($photo, $this->photos, true)) !== false) {
             unset($this->photos[$key]);
+            $this->photos = array_values($this->photos); // Réindexer le tableau
         }
 
         return $this;

@@ -1,4 +1,47 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+    <div>
+        {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+        {{ form_errors(form.name) }}
+    </div>
+    <div>
+        {{ form_label(form.age, 'Âge', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+        {{ form_widget(form.age, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+        {{ form_errors(form.age) }}
+    </div>
+    <div>
+        {{ form_label(form.type, 'Type', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+        {{ form_widget(form.type, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+        {{ form_errors(form.type) }}
+    </div>
+    <div>
+        {{ form_label(form.race, 'Race', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+        {{ form_widget(form.race, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+        {{ form_errors(form.race) }}
+    </div>
+    <div>
+        {{ form_label(form.description, 'Description', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+        {{ form_errors(form.description) }}
+    </div>
+    <div>
+        {{ form_label(form.photos, 'Photos', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+        {{ form_widget(form.photos, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+        {{ form_errors(form.photos) }}
+    </div>
+    <div>
+        {{ form_label(form.status, 'Statut', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+        {{ form_widget(form.status, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+        {{ form_errors(form.status) }}
+    </div>
+    <div>
+        {{ form_label(form.price, 'Prix', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+        {{ form_widget(form.price, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+        {{ form_errors(form.price) }}
+    </div>
+    <div>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Enregistrer
+        </button>
+    </div>
 {{ form_end(form) }}

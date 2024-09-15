@@ -3,52 +3,58 @@
 {% block title %}Animal{% endblock %}
 
 {% block body %}
-    <h1>Animal</h1>
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Détails de l'Animal</h1>
 
-    <table class="table">
+    <table class="min-w-full bg-white border border-gray-200">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ animal.id }}</td>
+            <tr class="bg-gray-100 border-b">
+                <th class="py-2 px-4 border-r text-left">Photo</th>
+                <td class="py-2 px-4">
+                    {% if animal.photos is iterable and animal.photos|length > 0 %}
+                        <img src="{{ asset('uploads/images/' ~ animal.photos[0]) }}" alt="{{ animal.name }}" class="w-32 h-32 object-cover">
+                    {% else %}
+                        <img src="{{ asset('images/Pas-dimage-disponible.jpg') }}" alt="Image par défaut" class="w-32 h-32 object-cover">
+                    {% endif %}
+            </td>
             </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ animal.name }}</td>
+            <tr class="border-b">
+                <th class="py-2 px-4 border-r text-left">Nom</th>
+                <td class="py-2 px-4">{{ animal.name }}</td>
             </tr>
-            <tr>
-                <th>Age</th>
-                <td>{{ animal.age }}</td>
+            <tr class="bg-gray-100 border-b">
+                <th class="py-2 px-4 border-r text-left">Âge</th>
+                <td class="py-2 px-4">{{ animal.age }}</td>
             </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ animal.type }}</td>
+            <tr class="border-b">
+                <th class="py-2 px-4 border-r text-left">Type</th>
+                <td class="py-2 px-4">{{ animal.type }}</td>
             </tr>
-            <tr>
-                <th>Race</th>
-                <td>{{ animal.race }}</td>
+            <tr class="bg-gray-100 border-b">
+                <th class="py-2 px-4 border-r text-left">Race</th>
+                <td class="py-2 px-4">{{ animal.race }}</td>
             </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ animal.description }}</td>
+            <tr class="border-b">
+                <th class="py-2 px-4 border-r text-left">Description</th>
+                <td class="py-2 px-4">{{ animal.description }}</td>
             </tr>
-            <tr>
-                <th>Photos</th>
-                <td>{{ animal.photos ? animal.photos|json_encode : '' }}</td>
+            <tr class="bg-gray-100 border-b">
+                <th class="py-2 px-4 border-r text-left">Statut</th>
+                <td class="py-2 px-4">{{ animal.status }}</td>
             </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ animal.status }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ animal.price }}</td>
+            <tr class="border-b">
+                <th class="py-2 px-4 border-r text-left">Prix</th>
+                <td class="py-2 px-4">{{ animal.price }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_animal_index') }}">back to list</a>
-
-    <a href="{{ path('app_admin_animal_edit', {'id': animal.id}) }}">edit</a>
-
-    {{ include('admin_animal/_delete_form.html.twig') }}
+    <div class="mt-4">
+        <a href="{{ path('app_admin_animal_edit', {'id': animal.id}) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Modifier</a>
+        <a href="{{ path('app_admin_animal_index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2">Retour à la liste</a>
+        {# <a href="{{ path('app_admin_animal_delete', {'id': animal.id}) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">Supprimer</a> #}
+        {{ include('admin_animal/_delete_form.html.twig') }}
+        
+    </div>
+</div>
 {% endblock %}

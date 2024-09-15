@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/admin')]
 #[IsGranted('ROLE_ADMIN')]
@@ -32,43 +33,79 @@ final class AdminAnimalController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_animal_new', methods: ['GET', 'POST'])]
+    #[Route('/animal/new', name: 'app_admin_animal_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $animal = new Animal();
-        $form = $this->createForm(Animal1Type::class, $animal);
-        $form->handleRequest($request);
+{
+    $animal = new Animal();
+    $form = $this->createForm(Animal1Type::class, $animal);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($animal);
-            $entityManager->flush();
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Récupérer la photo téléchargée depuis le formulaire
+        $photoFile = $form->get('photos')->getData();
 
-            return $this->redirectToRoute('app_admin_animal_index');
+        if ($photoFile) {
+            // Générer un nouveau nom unique pour la photo
+            $newFilename = uniqid() . '.' . $photoFile->guessExtension();
+
+            // Déplacer la photo dans le répertoire uploads/images
+            $photoFile->move(
+                $this->getParameter('photos_directory'),
+                $newFilename
+            );
+
+            // Associer le nom du fichier à l'entité Animal
+            $animal->setPhotos([$newFilename]); // Si c'est une seule image
         }
 
-        return $this->render('admin_animal/new.html.twig', [
-            'animal' => $animal,
-            'form' => $form->createView(),
-        ]);
+        // Sauvegarder l'animal dans la base de données
+        $entityManager->persist($animal);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_admin_animal_index');
     }
+
+    return $this->render('admin_animal/new.html.twig', [
+        'animal' => $animal,
+        'form' => $form->createView(),
+    ]);
+}
 
     #[Route('/{id}/edit', name: 'app_admin_animal_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Animal $animal, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(Animal1Type::class, $animal);
-        $form->handleRequest($request);
+{
+    $form = $this->createForm(Animal1Type::class, $animal);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Récupérer la nouvelle photo téléchargée
+        $newPhotoFile = $form->get('photos')->getData();
 
-            return $this->redirectToRoute('app_admin_animal_index');
+        if ($newPhotoFile) {
+            // Générer un nouveau nom unique pour la nouvelle photo
+            $newFilename = uniqid() . '.' . $newPhotoFile->guessExtension();
+
+            // Déplacer la nouvelle photo dans le répertoire désigné
+            $newPhotoFile->move(
+                $this->getParameter('photos_directory'),
+                $newFilename
+            );
+
+            // Remplacer le nom de l'ancienne photo par le nouveau dans l'entité (sans la supprimer du répertoire)
+            $animal->setPhotos([$newFilename]);  // Remplacez ou ajoutez selon votre logique
         }
 
-        return $this->render('admin_animal/edit.html.twig', [
-            'animal' => $animal,
-            'form' => $form->createView(),
-        ]);
+        $entityManager->persist($animal);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_admin_animal_index');
     }
+
+    return $this->render('admin_animal/edit.html.twig', [
+        'animal' => $animal,
+        'form' => $form->createView(),
+    ]);
+}
 
     #[Route('/{id}', name: 'app_admin_animal_delete', methods: ['POST'])]
     public function delete(Request $request, Animal $animal, EntityManagerInterface $entityManager): Response

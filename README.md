@@ -52,6 +52,7 @@ Suivez ces étapes pour installer et configurer le projet :
 3. Créez la base de données et exécutez les migrations :
 
 	php bin/console doctrine:database:create
+    pkp bin/console make:migration 
 	php bin/console doctrine:migrations:migrate
 
 4. Chargez les fixtures (données de test) :

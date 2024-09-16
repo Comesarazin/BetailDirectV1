@@ -41,24 +41,19 @@ final class AdminAnimalController extends AbstractController
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        // Récupérer la photo téléchargée depuis le formulaire
         $photoFile = $form->get('photos')->getData();
 
         if ($photoFile) {
-            // Générer un nouveau nom unique pour la photo
             $newFilename = uniqid() . '.' . $photoFile->guessExtension();
 
-            // Déplacer la photo dans le répertoire uploads/images
             $photoFile->move(
                 $this->getParameter('photos_directory'),
                 $newFilename
             );
 
-            // Associer le nom du fichier à l'entité Animal
-            $animal->setPhotos([$newFilename]); // Si c'est une seule image
+            $animal->setPhotos([$newFilename]);
         }
 
-        // Sauvegarder l'animal dans la base de données
         $entityManager->persist($animal);
         $entityManager->flush();
 
@@ -78,21 +73,17 @@ final class AdminAnimalController extends AbstractController
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        // Récupérer la nouvelle photo téléchargée
         $newPhotoFile = $form->get('photos')->getData();
 
         if ($newPhotoFile) {
-            // Générer un nouveau nom unique pour la nouvelle photo
             $newFilename = uniqid() . '.' . $newPhotoFile->guessExtension();
 
-            // Déplacer la nouvelle photo dans le répertoire désigné
             $newPhotoFile->move(
                 $this->getParameter('photos_directory'),
                 $newFilename
             );
 
-            // Remplacer le nom de l'ancienne photo par le nouveau dans l'entité (sans la supprimer du répertoire)
-            $animal->setPhotos([$newFilename]);  // Remplacez ou ajoutez selon votre logique
+            $animal->setPhotos([$newFilename]);  
         }
 
         $entityManager->persist($animal);
